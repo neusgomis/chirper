@@ -1,13 +1,43 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+* {
+  font-family: "Kode Mono", monospace;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+ul {
+  list-style-type: none;
+}
+
+.message-card {
+  background-color: rgb(238, 238, 238);
+  margin-top: 10px;
+}
+
+button {
+  background-color: #fb1eaa;
+  padding: 10px 15px;
+  border: none;
+  margin: 15px 0px;
+  color: white;
+  border-radius: 5%;
+}
+
+button:active, button:focus,  button:hover {
+  background-color: #cb008b;
+}
+
+.form-card {
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 0.25rem;
+  width: 40vh;
+  padding: 5px;
+  max-height: 35vh;
+}
+
+.messages-big-card {
+  width: 70%;
+  padding: 5px;
+}
+
+.pink-date {
+  color:#c05199!important;
 }
