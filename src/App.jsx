@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 import {v4 as uuidv4} from 'uuid';
 
@@ -16,7 +16,7 @@ const App = () => {
     const formattedTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes}`;
     return `${formattedDate}, at ${formattedTime}`;
   }
-    // hooks to manage the state of the username, message and list of all messages
+    // hooks to manage the state of the username, message, messages list and message length of all messages
     const [username, setUsername] = useState('');
     const [message, setMessage] = useState('');
     const [messageList, setMessageList] = useState([
@@ -39,21 +39,40 @@ const App = () => {
         dateTime: getCurrentDateTime()
       }
     ]);;
+    const [messageLength, setMessageLength] = useState(messageList.length);
+
     // function connected to form button to create a new message with the info
     const handleSubmit = e => {
-        e.preventDefault();
-        const newMessage =
-        {
-          id: uuidv4(), // id generator uuid
-          username: username,
-          message: message,
-          dateTime: getCurrentDateTime()
-        };
-        // reset useState of message list, message and username
-        setMessageList([...messageList, newMessage]);
-        setUsername('');
-        setMessage('');
+      e.preventDefault();
+      
+      // if username or message is empty display alert
+      if (!username.trim() || !message.trim()) {
+        return alert("Please fill both username and message fields")
+      }
+
+      const newMessage =
+      {
+        id: uuidv4(), // id generator uuid
+        username: username,
+        message: message,
+        dateTime: getCurrentDateTime()
+      };
+
+      // add new message to the messageList
+      setMessageList(messageList => [...messageList, newMessage]);
+      // clear form fields for message and username
     }
+
+    useEffect(() => {
+      // Assuming the new message is always added successfully
+      // and reflects in the length of the messages array
+      // reset form fields
+      if (messageList.length > messageLength) {
+          setMessage('');
+          setUsername('');
+          setMessageLength(messageList.length);
+      }
+    }, [messageList, messageLength]);
 
     return (
       // container div
@@ -62,13 +81,13 @@ const App = () => {
             <h4>Enter your Message</h4>
             <label htmlFor="name">Username</label>
             <div className="input-group">
-              <span className="input-group-text" id="inputGroupPrepend"><i class="fa-solid fa-user"></i></span>
-              <input id="name" className="form-control" value={username} type="text" onChange={e=> setUsername(e.target.value)} />
+              <span className="input-group-text" id="inputGroupPrepend"><i className="fa-solid fa-user"></i></span>
+              <input aria-label="Username" id="name" className="form-control" value={username} type="text" onChange={e=> setUsername(e.target.value)} />
             </div>
             <label htmlFor="message">Message</label>
             <div className="input-group">
-            <span className="input-group-text" id="inputGroupPrepend"><i class="fa-solid fa-pencil"></i></span>
-            <input id="message" className="form-control" value={message} type="text" onChange={e=> setMessage(e.target.value)} />
+            <span className="input-group-text" id="inputGroupPrepend"><i className="fa-solid fa-pencil"></i></span>
+            <input aria-label="Message" id="message" className="form-control" value={message} type="text" onChange={e=> setMessage(e.target.value)} />
             </div>
             <button type="submit" onClick={handleSubmit}>Submit</button>
         </div>
